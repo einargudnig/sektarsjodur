@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import FetchDataSteps from "@/components/tutorial/FetchDataSteps";
 import Header from "@/components/Header";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function ProtectedPage() {
   const supabase = createClient();
@@ -31,10 +32,17 @@ export default async function ProtectedPage() {
         </nav>
       </div>
 
-      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
+      <div className="flex-1 flex flex-col gap-20 max-w-4xl px-3">
         <Header />
         <main className="flex-1 flex flex-col gap-6">
           <h2 className="font-bold text-4xl mb-4">Next steps</h2>
+          <div className="flex flex-row justify-center items-center">
+            <p className="font-semibold p-2 rounded-md border border-1 border-neutral-700 w-36 mx-auto">
+              <Link href={'/notes'}>
+                Go to /notes
+              </Link>
+            </p>
+          </div>
           <FetchDataSteps />
         </main>
       </div>
