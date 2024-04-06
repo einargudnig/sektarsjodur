@@ -13,11 +13,11 @@ import {
 export async function FineList() {
   const supabase = createClient()
 
-  let { data: names, error } = await supabase
-  .from('names')
+  let { data: fines, error } = await supabase
+  .from('fines')
   .select('*')
           
-  console.log({names})
+  console.log({ fines })
 
   return (
     <Table>
@@ -29,9 +29,10 @@ export async function FineList() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {names?.map((name) => (
-          <TableRow key={name.id}>
-            <TableCell className="font-medium">{name.name}</TableCell>
+        {fines?.map((fine) => (
+          <TableRow key={fine.id}>
+            <TableCell className="font-medium">{fine.name}</TableCell>
+            <TableCell>{fine.cost}</TableCell>
           </TableRow>
         ))}
       </TableBody>      

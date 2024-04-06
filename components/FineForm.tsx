@@ -18,23 +18,22 @@ import { Input } from "@/components/ui/input"
 
 const formSchema = z.object({
   fineName: z.string().min(2).max(50),
-  fineCost: z.number(),
+  fineCost: z.string(),
   fineNote: z.string().max(250)
-
 })
 
 export function FineForm() {
 
-  const addFine = async (name: string) => {
+  const addFine = async (name: string, cost: string, note: string) => {
     const supabase = createClient()
 
     const { data: user } = await supabase.auth.getUser()
     console.log({ user })
 
     const { data, error } = await supabase
-    .from('names')
+    .from('fines')
     .insert([
-      { 'created_at': new Date(), 'name': name },
+      { 'created_at': new Date(), 'fine_name': name, 'fine_cost': cost, 'fine_note': note },
       ])
       .select()
     
@@ -47,7 +46,7 @@ export function FineForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       fineName: "",
-      fineCost: 0,
+      fineCost: '0',
       fineNote: "",
     },
   })
@@ -56,14 +55,15 @@ export function FineForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values)
-    // addFine(values.name)
+    console.log('values in submitHandler',values)
+    addFine(values.fineName, values.fineCost, values.fineNote)
   }
 
   return (
+    <> 
     <div className="border border-1 rounded-md p-2">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <FormField
             control={form.control}
             name="fineName"
@@ -114,7 +114,8 @@ export function FineForm() {
           />
           <Button type="submit">Submit</Button>
         </form>
-      </Form>
-    </div>
+        </Form>
+      </div>
+    </>
   )
 }
