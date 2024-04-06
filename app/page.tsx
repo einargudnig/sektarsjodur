@@ -1,9 +1,10 @@
 import DeployButton from "../components/DeployButton";
 import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
-import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
-import Header from "@/components/Header";
+import { UserForm } from "@/components/UserForm";
+import { UserTable } from "@/components/UserTable";
+import { FineList } from '@/components/FineList'
+import { FineForm } from "@/components/FineForm";
 
 export default async function Index() {
   const canInitSupabaseClient = () => {
@@ -25,15 +26,22 @@ export default async function Index() {
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <DeployButton />
           {isSupabaseConnected && <AuthButton />}
-          
         </div>
       </nav>
 
       <div className="flex-1 flex flex-col gap-20 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
+        <main className="">
+          <div className="flex flex-end">
+          <div className="p-2 border border-1 rounded-md">
+            <FineForm />
+            <FineList />
+          </div>
+          <div className="w-4"/>
+          <div className="p-2 border border-1 rounded-md">
+            <UserForm />
+            <UserTable />
+            </div>
+            </div>
         </main>
       </div>
 
